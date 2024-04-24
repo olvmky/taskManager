@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Functionality.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">task.manager.taskmanager</a> &gt; <span class="el_source">Functionality.java</span></div><h1>Functionality.java</h1><pre class="source lang-java linenums">package task.manager.taskmanager;
+
+import java.util.*;
+import java.io.*;
+
+/**
+ * Provides core functionalities for task management including adding, completing tasks,
+ * and managing task persistence through CSV files.
+ */
+<span class="fc" id="L10">public class Functionality{</span>
+    protected static String path;
+<span class="fc" id="L12">    protected static List&lt;Task&gt; tasks = new ArrayList&lt;&gt;();</span>
+    protected static final String CSV_HEADER = &quot;id,text,completed,due,priority,category&quot;;
+
+    /**
+     * Adds a task to the task manager and updates the CSV file.
+     *
+     * @param task The task to be added.
+     * @param filePath The file path of the CSV file.
+     */
+    public void addTask(Task task, String filePath){
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if(filePath == null) {</span>
+<span class="nc" id="L23">            System.out.println(&quot;Error, the file path had not been defined!&quot;);</span>
+<span class="nc" id="L24">            return;</span>
+        }
+<span class="fc" id="L26">        try (FileWriter writer = new FileWriter(filePath, true);</span>
+<span class="fc" id="L27">        BufferedWriter bw = new BufferedWriter(writer);</span>
+<span class="fc" id="L28">        PrintWriter out = new PrintWriter(bw)) {</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">            if (!new File(filePath).exists()) {</span>
+<span class="nc" id="L30">                out.println(CSV_HEADER);</span>
+            }
+<span class="fc" id="L32">            out.println(tripleSpaceToComma(commaToSpecial(taskToCsv(task))));</span>
+<span class="fc" id="L33">            System.out.println(&quot;Task added successfully!&quot;);</span>
+<span class="fc" id="L34">            tasks.add(task);</span>
+<span class="fc" id="L35">            System.out.println(taskToCsv(task));</span>
+<span class="nc" id="L36">        } catch (IOException e) {</span>
+<span class="nc" id="L37">            System.out.println(&quot;Error occurred while adding task: &quot; + e.getMessage());</span>
+<span class="fc" id="L38">        }</span>
+<span class="fc" id="L39">    }</span>
+
+
+    /**
+     * Completes a task by updating its status in the CSV file.
+     *
+     * @param taskId The ID of the task to complete.
+     * @param path The file path of the CSV file.
+     */
+    public void completeTask(String taskId, String path){
+<span class="pc bpc" id="L49" title="2 of 4 branches missed.">        if (taskId == null || taskId.isEmpty()) {</span>
+<span class="nc" id="L50">            System.out.println(&quot;Error: Task ID is null or empty.&quot;);</span>
+<span class="nc" id="L51">            return;</span>
+        }
+        try {
+<span class="fc" id="L54">            Functionality.path = path;</span>
+            // Read the existing CSV content into memory
+<span class="fc" id="L56">            List&lt;String&gt; lines = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">            try (BufferedReader reader = new BufferedReader(new FileReader(path))) {</span>
+                String line;
+<span class="fc bfc" id="L59" title="All 2 branches covered.">                while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L60">                    lines.add(line);</span>
+                }
+            }
+
+            // Update the status of the task with the specified ID
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            for (int i = 1; i &lt; lines.size(); i++) { // Start from index 1 to skip the header line</span>
+<span class="fc" id="L66">                String[] parts = lines.get(i).split(&quot;,&quot;);</span>
+<span class="fc" id="L67">                long currentId = Long.parseLong(parts[0]);</span>
+<span class="pc bpc" id="L68" title="2 of 4 branches missed.">                if (parts.length &gt;= 2 &amp;&amp; currentId == Long.parseLong(taskId)) { // Check if the ID matches</span>
+<span class="fc" id="L69">                    parts[2] = String.valueOf(true); // Update the status</span>
+                }
+<span class="fc" id="L71">                lines.set(i, String.join(&quot;,&quot;, parts));</span>
+            }
+            // Write the modified content back to the CSV file
+<span class="fc" id="L74">            try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">                for (String line : lines) {</span>
+<span class="fc" id="L76">                    writer.write(line);</span>
+<span class="fc" id="L77">                    writer.newLine();</span>
+<span class="fc" id="L78">                }</span>
+            }
+
+<span class="fc" id="L81">            System.out.println(&quot;Task status updated successfully!\n&quot;);</span>
+
+<span class="fc" id="L83">        } catch (IOException e) {</span>
+<span class="fc" id="L84">            System.out.println(&quot;Error occurred while updating task status: &quot; + e.getMessage());</span>
+<span class="fc" id="L85">        }</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Display tasks based on specified filters and sorting options.
+     * Two filter argu can be combine but only one sort can be applied at a time.
+     *
+     * @param includeIncomplete Whether to include only incomplete tasks.
+     * @param category The category to filter tasks by (null for no filtering).
+     * @param sortByDate Whether to sort tasks by date (true for ascending, false for descending).
+     * @param sortByPriority Whether to sort tasks by priority (true for ascending, false for descending).
+     * @param filePath The path to the CSV file containing the tasks.
+     * @return A list of tasks after applying the sorting.
+     */
+    public List&lt;Task&gt; displayTasks(boolean includeIncomplete, String category,
+                            boolean sortByDate, boolean sortByPriority, String filePath) {
+<span class="pc bpc" id="L101" title="1 of 4 branches missed.">        if(filePath == null || filePath.isEmpty()){</span>
+<span class="fc" id="L102">            System.out.println(&quot;File path is empty&quot;);</span>
+<span class="fc" id="L103">            return new ArrayList&lt;&gt;();</span>
+        }
+<span class="pc bpc" id="L105" title="3 of 4 branches missed.">        if(sortByDate &amp;&amp; sortByPriority){</span>
+<span class="nc" id="L106">            System.out.println(&quot;Error! Cannot sort by date and priority simulatneously.&quot;);</span>
+<span class="nc" id="L107">            System.out.println(&quot;Please re-enter how you want to sort the list. &quot;);</span>
+<span class="nc" id="L108">            return new ArrayList&lt;&gt;();</span>
+        }
+        
+<span class="fc" id="L111">        List&lt;Task&gt; tasks = readTasksFromCSV(filePath); // Read tasks from CSV file</span>
+
+        // Apply filters
+<span class="fc" id="L114">        List&lt;Task&gt; filteredTasks = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        for (Task task : tasks) {</span>
+<span class="pc bpc" id="L116" title="1 of 6 branches missed.">            if ((!includeIncomplete || !task.isCompleted()) &amp;&amp; (category == null ||</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">                    category.equals(task.getCategory()))) {</span>
+<span class="fc" id="L118">                filteredTasks.add(task);</span>
+            }
+<span class="fc" id="L120">        }</span>
+
+        // Apply sorting
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if(sortByDate) {</span>
+<span class="nc" id="L124">            Collections.sort(filteredTasks, (t1, t2) -&gt; {</span>
+<span class="nc" id="L125">                String dueDate1 = t1.getDue();</span>
+<span class="nc" id="L126">                String dueDate2 = t2.getDue();</span>
+<span class="nc bnc" id="L127" title="All 4 branches missed.">                if (dueDate1 == null || dueDate1.isEmpty()) {</span>
+<span class="nc bnc" id="L128" title="All 4 branches missed.">                    return dueDate2 == null || dueDate2.isEmpty() ? 0 : 1;</span>
+<span class="nc bnc" id="L129" title="All 4 branches missed.">                } else if (dueDate2 == null || dueDate2.isEmpty()) {</span>
+<span class="nc" id="L130">                    return -1;</span>
+                } else {
+<span class="nc" id="L132">                    return dueDate1.compareTo(dueDate2);</span>
+                }
+            });
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        } else if (sortByPriority) {</span>
+<span class="nc" id="L136">            Collections.sort(filteredTasks, (t1, t2) -&gt; {</span>
+<span class="nc" id="L137">                Priority p1 = t1.getPriority();</span>
+<span class="nc" id="L138">                Priority p2 = t2.getPriority();</span>
+                // Compare priorities based on their ordinal values
+<span class="nc" id="L140">                return Integer.compare(p1.ordinal(), p2.ordinal());</span>
+            });
+        }
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if(filteredTasks.size() == 0) System.out.println(&quot;All tasks have been completed&quot;);</span>
+        // Display tasks
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        for (Task task : filteredTasks) {</span>
+<span class="fc" id="L146">            System.out.println(specialToComma(taskToCsv(task)));</span>
+<span class="fc" id="L147">        }</span>
+<span class="fc" id="L148">        System.out.println();</span>
+<span class="fc" id="L149">        return filteredTasks;</span>
+    }
+
+    /**
+     * Reads the contents of a file and returns a list of String arrays.
+     *
+     * @param filePath The path of the file to read.
+     * @return A list of String arrays containing the file contents.
+     */
+    public List&lt;String[]&gt; readFileContents(String filePath){
+<span class="fc" id="L159">        this.path = filePath;</span>
+<span class="fc" id="L160">        List&lt;String[]&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L161">        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {</span>
+            String line;
+<span class="fc" id="L163">            boolean firstLine = true;</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                if (firstLine) { // Skip the header line</span>
+<span class="fc" id="L166">                    firstLine = false;</span>
+<span class="fc" id="L167">                    continue;</span>
+                }
+<span class="fc" id="L169">                line = commaToTripleSpace(line);</span>
+<span class="fc" id="L170">                line = specialToComma(line);</span>
+<span class="fc" id="L171">                String[] parts = line.split(&quot;   &quot;);</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">                if(parts.length &lt; 6) {</span>
+<span class="nc" id="L173">                    String[] copy = new String[6];</span>
+<span class="nc" id="L174">                    int j = 0;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">                    for(String i:parts){</span>
+<span class="nc" id="L176">                        copy[j++] = i;</span>
+                    }
+<span class="nc" id="L178">                    parts = copy;</span>
+                }
+<span class="fc" id="L180">                list.add(parts);</span>
+<span class="fc" id="L181">            }</span>
+<span class="fc" id="L182">        } catch (FileNotFoundException e) {</span>
+<span class="fc" id="L183">            System.err.println(&quot;File not found: &quot; + filePath);</span>
+<span class="nc" id="L184">        } catch (IOException e) {</span>
+<span class="nc" id="L185">            System.err.println(&quot;Error reading file: &quot; + filePath + &quot;\n&quot; + e.getMessage());</span>
+<span class="fc" id="L186">        }</span>
+<span class="fc" id="L187">        return list;</span>
+    }
+
+    /**
+     * Read from csv and return a list of Task objects
+     *
+     * @param path Path of csv file
+     * @return what the csv file contains
+     */
+    public List&lt;Task&gt; readTasksFromCSV(String path) {
+<span class="fc" id="L197">        this.path = path;</span>
+<span class="fc" id="L198">        List&lt;Task&gt; tasks = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L199">        List&lt;String[]&gt; parts = readFileContents(path);</span>
+<span class="fc" id="L200">        Priority priority = null;</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        for(String[] i:parts) {</span>
+<span class="pc bpc" id="L202" title="2 of 4 branches missed.">            if (i[4] == null || i[4].equals(&quot;&quot;)) priority = Priority.LOW;</span>
+<span class="fc" id="L203">            else priority = Priority.valueOf(i[4]);</span>
+<span class="pc bpc" id="L204" title="2 of 4 branches missed.">            Task task = new Task(i[0], i[1] == null ? &quot;null&quot;:i[1], i[2] == null ? false : Boolean.parseBoolean(i[2]),</span>
+<span class="pc bpc" id="L205" title="1 of 2 branches missed.">                    i[3] == null ? null : i[3],</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">                    priority, i[5] == null ? null : i[5]);</span>
+<span class="fc" id="L207">            tasks.add(task);</span>
+<span class="fc" id="L208">        }</span>
+<span class="fc" id="L209">        return tasks;</span>
+    }
+
+    /**
+     * Converts an integer number to a Priority enum value.
+     *
+     * @param num The number to be converted(1, 2, and 3).
+     * @return The corresponding Priority enum value. Returns null if the number is invalid.
+     */
+    public Priority convertToPriorityNum(int num){
+<span class="fc" id="L219">        Priority res = null;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">        if(num == 1) res = Priority.LOW;</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">        else if(num == 2) res = Priority.MEDIUM;</span>
+<span class="fc bfc" id="L222" title="All 2 branches covered.">        else if(num == 3) res = Priority.HIGH;</span>
+<span class="fc" id="L223">        return res;</span>
+    }
+
+    /**
+     * Converts a string of a priority to a Priority enum value.
+     *
+     * @param val The string representation of the priority (&quot;low&quot;, &quot;medium&quot;, or &quot;high&quot;).
+     * @return The corresponding Priority enum value. Returns null if the string is not a valid priority.
+     */
+    public Priority convertToPriorityAlpha(String val){
+<span class="fc" id="L233">        Priority res = null;</span>
+<span class="fc" id="L234">        val = val.toLowerCase();</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">        if(val.equals(&quot;low&quot;)) res = Priority.LOW;</span>
+<span class="pc bpc" id="L236" title="1 of 4 branches missed.">        else if(val.equals(&quot;medium&quot;) || val.equals(&quot;med&quot;)) res = Priority.MEDIUM;</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">        else if(val.equals(&quot;high&quot;)) res = Priority.HIGH;</span>
+<span class="fc" id="L238">        return res;</span>
+    }
+
+    /**
+     * Self implemented method for converting task into a String
+     *
+     * @param task the task we need
+     * @return String of task and its information
+     */
+    public String taskToCsv(Task task) {
+<span class="fc" id="L248">        return task.getId() + &quot;   &quot;</span>
+<span class="fc" id="L249">                + task.getText() + &quot;   &quot;</span>
+<span class="fc" id="L250">                + task.isCompleted() + &quot;   &quot;</span>
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">                + (task.getDue() != null ? task.getDue() : &quot;&quot;) + &quot;   &quot;</span>
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">                + (task.getPriority() != null ? task.getPriority() : &quot;&quot;) + &quot;   &quot;</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">                + (task.getCategory() != null ? task.getCategory() : &quot;&quot;);</span>
+    }
+
+    /**
+     * Replaces all occurrences of the comma character (&quot;,&quot;) in a string with a special character (&quot;�&quot;).
+     *
+     * @param str The input string.
+     * @return A new string with all commas replaced by the special character.
+     */
+    String commaToSpecial(String str) {
+<span class="fc" id="L263">        return str.replace(&quot;,&quot;, &quot;�&quot;);</span>
+    }
+
+    /**
+     * Replaces all occurrences of commas in a string with triple spaces.
+     *
+     * @param str The input string.
+     * @return The modified string with commas replaced by triple spaces.
+     */
+    String commaToTripleSpace(String str){
+<span class="fc" id="L273">        return str.replace(&quot;,&quot;, &quot;   &quot;);</span>
+    }
+
+    /**
+     * Replaces triple spaces in a given string with a comma.
+     *
+     * @param str The string to be processed.
+     * @return The string with triple spaces replaced by a comma.
+     */
+    String tripleSpaceToComma(String str){
+<span class="fc" id="L283">        return str.replace(&quot;   &quot;, &quot;,&quot;);</span>
+    }
+
+    /**
+     * Replaces special character &quot;�&quot; with a comma in the given string.
+     *
+     * @param str The string to be processed.
+     * @return The string with &quot;�&quot; replaced by a comma.
+     */
+    String specialToComma(String str){
+<span class="fc" id="L293">        return str.replace(&quot;�&quot;, &quot;,&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

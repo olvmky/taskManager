@@ -1,0 +1,32 @@
+id,text,completed,due,priority,category
+1,Fix Bug 1234 in ZIP code validator,true,2023/22/08,HIGH,Preme
+2,Create Mock-up for new View in Grocery Mobile App,true,2023/30/09,MEDIUM,Grocery
+3,Organize Code Review with ASW� On-line� and Marketing teams for new version of website,true
+09445,testing for adding file correctly in csv file,true,,LOW
+03500,testing for completed,true,,LOW
+05181,Testing for Priority and Finish,true,,HIGH
+03238,Finish extra credit,true,,HIGH,HW
+07038,testing for MED Priority,true,,MEDIUM,testing
+06034,testing for display and add,true,,MEDIUM,testing
+09157,Implement Priority sorting,true,,HIGH,impl
+07025,impl calendar,true,,HIGH,impl
+07717,impl category sorting,true,,HIGH,impl
+05433,testing,true,,HIGH,testing
+02695,testing,true,,HIGH,testing
+01823,Change code accroding to design pattern and mvc,true,,MEDIUM,format
+02935,testing for due date and everything,true,2024/04/02,LOW,testing
+08363,testing for add and category sorting,true,2024/04/02,LOW,testing
+02910,testing on add and category sorting again,true,2024/04/02,LOW,testing
+07758,testing for add & category sorting,true,2024/04/02,LOW,test
+00054,test,true,2024/04/02,LOW,testt
+06564,test for category sorting,true,2024/04/02,LOW,sorting
+08127,javadoc on everything,true,2024/04/02,HIGH,HW
+07218,testing,true,,LOW,testing
+04370,Implement Feature #P0123� add unit testing� and add proper Javadoc.,true,,LOW
+02083,testing for multiple commands,true,,LOW
+07760,testing� for� special�case,true,,LOW
+01604,testing,true,,LOW
+08743,testing�for�special�case,true,2024/04/12,LOW
+09202,testing�for�special,true,,LOW
+00456,testing�for�special,false,,LOW,
+02020,testing�for�special,false,,LOW,

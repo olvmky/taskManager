@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddTaskCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">task.manager.taskmanager</a> &gt; <span class="el_source">AddTaskCommand.java</span></div><h1>AddTaskCommand.java</h1><pre class="source lang-java linenums">package task.manager.taskmanager;
+
+/**
+ * Represents a command to add a task to the task manager.
+ */
+public class AddTaskCommand implements Command{
+    private final TaskManager taskManager;
+    private final Functionality functionality;
+    private final String filePath;
+    private final String text;
+    private boolean completed;
+    private String dueDate;
+    private String category;
+
+    /**
+     * Represents a command to add a task to the task manager.
+     *
+     * @param functionality The Functionality object that provides task management functionality.
+     * @param filePath The file path to save the task list.
+     * @param text The description of the task to be added.
+     * @param completed The status of the task (true if completed, false otherwise).
+     * @param dueDate The due date of the task.
+     * @param category The category of the task.
+     * @param taskManager The TaskManager object responsible for managing the tasks.
+     */
+    public AddTaskCommand(Functionality functionality, String filePath,
+                        String text, boolean completed, String dueDate, String category,
+<span class="fc" id="L28">                        TaskManager taskManager) {</span>
+<span class="fc" id="L29">        this.functionality = functionality;</span>
+<span class="fc" id="L30">        this.filePath = filePath;</span>
+<span class="fc" id="L31">        this.text = text;</span>
+<span class="fc" id="L32">        this.completed = completed;</span>
+<span class="fc" id="L33">        this.dueDate = dueDate;</span>
+<span class="fc" id="L34">        this.category = category;</span>
+<span class="fc" id="L35">        this.taskManager = taskManager;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Executes the command to add a task to the task manager.
+     * Generates a random numeric ID for the task.
+     * Creates a new Task object with the generated ID, description, completion status,
+     * due date, priority, and category.
+     * Adds the new task to the task manager using the functionality object.
+     */
+    @Override
+    public void execute(){
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if(text == null){</span>
+<span class="fc" id="L48">            System.out.println(&quot;Please set up the description by --Task-text before add task\n&quot;);</span>
+<span class="fc" id="L49">            return;</span>
+        }
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if(completed != true) completed = false;</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if(Program.priority == null) Program.priority = Priority.LOW;</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if(dueDate == null) dueDate = &quot;&quot;;</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if(category == null) category = &quot;&quot;;</span>
+<span class="fc" id="L55">        String id = taskManager.generateRandomNumericId();</span>
+<span class="fc" id="L56">        Task newTask = new Task(id, text, completed, dueDate, Program.priority, category);</span>
+<span class="fc" id="L57">        functionality.addTask(newTask, filePath);</span>
+<span class="fc" id="L58">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

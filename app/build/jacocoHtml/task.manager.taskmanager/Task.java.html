@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Task.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">task.manager.taskmanager</a> &gt; <span class="el_source">Task.java</span></div><h1>Task.java</h1><pre class="source lang-java linenums">
+package task.manager.taskmanager;
+import java.util.*;
+
+/**
+ * Represents a task with text, completion status, due date, category, priority, and ID.
+ */
+public class Task {
+<span class="fc" id="L9">    public static final String manager = null;</span>
+    protected String text;
+    protected boolean completed; // false by fault
+    protected String due;
+    final String category;  //Optional field, can be &quot;Preme&quot;, &quot;ASW&quot;, &quot;Grocery&quot;
+    protected Priority priority;
+    final String id;
+<span class="fc" id="L16">    private static Set&lt;String&gt; generatedIds = new HashSet&lt;&gt;();</span>
+
+    /**
+     * Creates a new Task object with the given parameters.
+     *
+     * @param id The ID of the task.
+     * @param text The text/description of the task.
+     * @param completed The completion status of the task.
+     * @param due The due date of the task.
+     * @param priority The priority of the task.
+     * @param category The category of the task.
+     */
+<span class="fc" id="L28">    public Task(String id, String text, boolean completed, String due, Priority priority, String category){</span>
+<span class="fc" id="L29">        validateText(text); // Validate text</span>
+<span class="fc" id="L30">        this.text = text;</span>
+<span class="fc" id="L31">        this.completed = completed;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        this.due = due == null ? &quot;&quot;:due;</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        this.priority = priority == null? Priority.LOW : priority;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        this.category = category == null ? &quot;&quot;:category;</span>
+<span class="fc" id="L35">        this.id = id;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Generates a random 5-digit numeric ID that is unique among all generated IDs.
+     * The generated ID is formatted as a string.
+     *
+     * @return A unique 5-digit numeric ID as a string.
+     */
+    private String generateRandomNumericId() {
+<span class="nc" id="L45">        Random random = new Random();</span>
+        String numericId;
+        do {
+<span class="nc" id="L48">            numericId = String.format(&quot;%05d&quot;, random.nextInt(10000)); // Generate 10-digit numeric ID</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        } while (!generatedIds.add(numericId)); // Check uniqueness and add to set</span>
+<span class="nc" id="L50">        generatedIds.add(numericId);</span>
+<span class="nc" id="L51">        return numericId;</span>
+    }
+
+    /**
+     * Retrieves the text/description of the task.
+     *
+     * @return The text/description of the task.
+     */
+    public String getText() {
+<span class="fc" id="L60">        return this.text;</span>
+    }
+
+    /**
+     * Sets the completed status of the task.
+     *
+     * @param completed The boolean value indicating whether the task is completed or not.
+     */
+    public void setCompleted(boolean completed) {
+<span class="fc" id="L69">        this.completed = completed;</span>
+<span class="fc" id="L70">    }</span>
+
+    /**
+     * Returns the completion status of the task.
+     *
+     * @return The completion status of the task.
+     */
+    public boolean isCompleted() {
+<span class="fc" id="L78">        return this.completed;</span>
+    }
+
+    /**
+     * Gets the due date of the task.
+     *
+     * @return The due date of the task as a string.
+     */
+    public String getDue() {
+<span class="fc" id="L87">        return this.due;</span>
+    }
+
+    /**
+     * Returns the category of the task.
+     *
+     * @return The category of the task.
+     */
+    public String getCategory() {
+<span class="fc" id="L96">        return this.category;</span>
+    }
+
+    /**
+     * Gets the ID of the task.
+     *
+     * @return The ID of the task.
+     */
+    public String getId() {
+<span class="fc" id="L105">        return this.id;</span>
+    } 
+    
+    /**
+     * Gets the priority of the task.
+     *
+     * @return The priority of the task.
+     */
+    public Priority getPriority() {
+<span class="fc" id="L114">        return priority;</span>
+    }
+
+    /**
+     * Validates the given text by checking if it is null or empty after removing leading and trailing white spaces.
+     * Throws an IllegalArgumentException if the text is null or empty.
+     *
+     * @param text The text to be validated.
+     * @throws IllegalArgumentException If the text is null or empty.
+     */
+    private void validateText(String text) {
+<span class="pc bpc" id="L125" title="1 of 4 branches missed.">        if (text == null || text.trim().isEmpty()) {</span>
+<span class="fc" id="L126">            throw new IllegalArgumentException(&quot;Text cannot be empty&quot;);</span>
+        }
+<span class="fc" id="L128">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Program.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">task.manager.taskmanager</a> &gt; <span class="el_source">Program.java</span></div><h1>Program.java</h1><pre class="source lang-java linenums">package task.manager.taskmanager;
+
+import java.util.*;
+
+/**
+ * Command class
+ * For commands our application have and run the program
+ */
+<span class="fc" id="L9">public class Program {</span>
+<span class="fc" id="L10">    protected static Functionality function = new Functionality();</span>
+//    protected static CompleteTaskCommand completeTaskCommand = new CompleteTaskCommand();
+    protected static String category;
+    protected static Priority priority;
+    protected static String dueDate;
+    protected static String description;
+<span class="fc" id="L16">    protected static List&lt;Task&gt; tasks = new ArrayList&lt;&gt;();</span>
+    protected static String text;
+    protected static boolean completed;
+    protected static String filePath;
+
+    /**
+     * Provide a brief description of all supported command
+     * @return String of what command we have
+     */
+    public static String help(){
+<span class="fc" id="L26">        String output = &quot;&quot;;</span>
+<span class="fc" id="L27">        output += &quot;--help &lt;command&gt;: for full description of the command\n&quot;;</span>
+<span class="fc" id="L28">        output += &quot;--csv-file &lt;path/to/file&gt;: for uploading csv file for tasks\n&quot;;</span>
+<span class="fc" id="L29">        output += &quot;--add-Task: to add new task\n&quot;;</span>
+<span class="fc" id="L30">        output += &quot;--Task-text &lt;description of Task&gt;: Set the description of new Task\n&quot;;</span>
+<span class="fc" id="L31">        output += &quot;--completed: Set completed status of new Task to true\n&quot;;</span>
+<span class="fc" id="L32">        output += &quot;--due &lt;MONTH/DAY/YEAR&gt;: Set due date of new task\n&quot;;</span>
+<span class="fc" id="L33">        output += &quot;--priority &lt;1, 2, or 3&gt;: Set priority of a new task\n&quot;;</span>
+<span class="fc" id="L34">        output += &quot;--category &lt;category name&gt;: Set category of new task\n&quot;;</span>
+<span class="fc" id="L35">        output += &quot;--complete-Task &lt;id&gt;: mark task with proved id as complete\n&quot;;</span>
+<span class="fc" id="L36">        output += &quot;--display: display tasks, if none of the optional arg provided, will display all tasks\n&quot;;</span>
+<span class="fc" id="L37">        output += &quot;--show-incomplete: if --display is provided, only incomplete tasks displayed\n&quot;;</span>
+<span class="fc" id="L38">        output += &quot;--show-category &lt;category&gt;: if --display provided, only tasks with given category displayed\n&quot;;</span>
+<span class="fc" id="L39">        output += &quot;--sort-by-date: if --display provided, sort list of task by date in ascending\n&quot;;</span>
+<span class="fc" id="L40">        output += &quot;--sort-by-priority: if --display provided, sort list of tasks by priority in ascending\n\n&quot;;</span>
+
+<span class="fc" id="L42">        output += &quot;command options: csv-file, add-Task, Task-text, completed, due, priority, category, \n&quot;;</span>
+<span class="fc" id="L43">        output += &quot;                 complete-Task, display, display--show-incomplete, display--show-category, \n&quot;;</span>
+<span class="fc" id="L44">        output += &quot;                 display--sort-by-date, display--sort-by-priority\n&quot;;</span>
+<span class="fc" id="L45">        return output;</span>
+    }
+
+    /**
+     * Return the description of command depending on inputs
+     * @param command The command user may have questions on
+     * @return Description of the command
+     */
+    public static String help(String command){
+<span class="fc" id="L54">        String output = &quot;&quot;;</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if(command.equals(&quot;csv-file&quot;)) output += &quot;--csv-file &lt;path/to/file&gt;: for uploading csv file for tasks\n&quot;;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        else if(command.equals(&quot;add-Task&quot;)) output += &quot;--add-Task: to add new task\n&quot;;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        else if(command.equals(&quot;Task-text&quot;))</span>
+<span class="nc" id="L58">            output += &quot;--Task-text &lt;description of Task&gt;: Set the description of new Task\n&quot;;</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        else if(command.equals(&quot;completed&quot;)) output += &quot;--completed: Set completed status of new Task to true\n&quot;;</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        else if(command.equals(&quot;due&quot;)) output += &quot;--due &lt;YEAR/MONTH/DAY&gt;: Set due date of new task\n&quot;;</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        else if(command.equals(&quot;priority&quot;)) output += &quot;--priority &lt;1, 2, or 3&gt;: Set priority of a new task\n&quot;;</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        else if(command.equals(&quot;category&quot;)) output += &quot;--category &lt;category name&gt;: Set category of new task\n&quot;;</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        else if(command.equals(&quot;complete-Task&quot;))</span>
+<span class="nc" id="L64">            output += &quot;--complete-Task &lt;id&gt;: mark task with proved iid as complete\n&quot;;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        else if(command.equals(&quot;display&quot;))</span>
+<span class="nc" id="L66">            output += &quot;--display: display tasks, if none of the optional arg provided, will display all tasks\n&quot;;</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        else if(command.equals(&quot;display--show-incomplete&quot;))</span>
+<span class="nc" id="L68">            output += &quot;--show-incomplete: if --display is provided, only incomplete tasks displayed\n&quot;;</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        else if(command.equals(&quot;display--show-category&quot;))</span>
+<span class="nc" id="L70">            output += &quot;--show-category &lt;category&gt;: if --display provided, only tasks with given category displayed\n&quot;;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        else if(command.equals(&quot;display--sort-by-date&quot;))</span>
+<span class="nc" id="L72">            output += &quot;--sort-by-date: if --display provided, sort list of task by date in ascending\n&quot;;</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        else if(command.equals(&quot;display--sort-by-priority&quot;))</span>
+<span class="nc" id="L74">            output += &quot;--sort-by-priority: if --display provided, sort list of tasks by priority in ascending\n&quot;;</span>
+        else {
+<span class="fc" id="L76">            output += &quot;The command you have entered is incorrect, please re-enter\n&quot;;</span>
+<span class="fc" id="L77">            output += &quot;enter --help for more help if needed.\n&quot;;</span>
+        }
+
+<span class="fc" id="L80">        return output;</span>
+    }
+
+    /**
+     * Checks if the given string follows the correct format.
+     *
+     * @param given The string to be checked.
+     * @return true if the string follows the correct format, false otherwise.
+     */
+    public static boolean correctFormat(String given){
+<span class="pc bpc" id="L90" title="1 of 4 branches missed.">        if(given.charAt(0) != '-' &amp;&amp; given.charAt(1) != '-') return false;</span>
+<span class="fc" id="L91">        return true;</span>
+    }
+
+    /**
+     * This method is used to process multiple commands entered by the user.
+     *
+     * @param command The multiple commands entered by the user.
+     */
+    public static void multipleCommand(String command){
+<span class="fc" id="L100">        int add = 0;</span>
+<span class="fc" id="L101">        String[] parts = command.split(&quot;--&quot;);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">        if(parts.length &lt; 2){</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if(command.substring(2, 10).equals(&quot;category&quot;)){</span>
+<span class="nc" id="L104">                category = command.substring(11);</span>
+<span class="nc" id="L105">                System.out.println(&quot;category have been saved&quot;);</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            } else if(command.substring(2,11).equals(&quot;Task-text&quot;)){</span>
+<span class="nc" id="L107">                text = command.substring(12);</span>
+<span class="nc" id="L108">                System.out.println(&quot;The description for new task have been saved!\n&quot;);</span>
+            }
+<span class="nc" id="L110">            return;</span>
+        }
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">        for(String i:parts) {</span>
+<span class="fc" id="L114">            i = i.trim();</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            if(i.equals(&quot;add-Task&quot;)) add++;</span>
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">            else if(i.length() &gt;= 7 &amp;&amp; !i.substring(0,7).equals(&quot;display&quot;) &amp;&amp;</span>
+<span class="pc bpc" id="L117" title="2 of 4 branches missed.">                    i.length() &gt;= 13 &amp;&amp; !i.substring(0,13).equals(&quot;complete-Task&quot;)){</span>
+<span class="fc" id="L118">                System.out.println(&quot;Can only add, complete and display in one run.&quot;);</span>
+<span class="fc" id="L119">                System.out.println(&quot;Please re-enter&quot;);</span>
+            }
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">            if(add &gt; 1) {</span>
+<span class="nc" id="L122">                System.out.println(&quot;Cannot add more than one Task in one run&quot;);</span>
+<span class="nc" id="L123">                return;</span>
+            }
+<span class="fc" id="L125">            StringBuilder temp = new StringBuilder();</span>
+<span class="fc" id="L126">            temp.append(&quot;--&quot;);</span>
+<span class="fc" id="L127">            temp.append(i);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            if(temp.length() &gt; 2) System.out.println(temp.toString());</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if(temp.length() &gt; 2) detectCommand(temp.toString());</span>
+        }
+<span class="fc" id="L131">    }</span>
+
+    /**
+     * Detects the command entered by the user and performs the action.
+     *
+     * @param command The command entered by the user
+     */
+    public static void detectCommand(String command){
+<span class="fc" id="L139">        TaskManager taskManager = new TaskManager();</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        if(command.substring(2,6).equals(&quot;help&quot;)){</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">            if(command.length() &lt;= 7) System.out.println(help());</span>
+<span class="nc" id="L142">            else System.out.println(help(command.substring(7)));</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        } else if(command.substring(2, 9).equals(&quot;display&quot;)){</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">            if(command.length() &lt;= 10)</span>
+<span class="fc" id="L145">                function.displayTasks(false, null,</span>
+                        false, false, filePath);
+<span class="nc" id="L147">            else display(command.substring(9));</span>
+<span class="pc bpc" id="L148" title="1 of 4 branches missed.">        } else if(command != null &amp;&amp; command.substring(2).equals(&quot;add-Task&quot;)){</span>
+<span class="fc" id="L149">            AddTaskCommand addTask = new AddTaskCommand(function, filePath, text, completed,</span>
+                    dueDate, category, taskManager);
+<span class="fc" id="L151">            addTask.execute();</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        } else if(command.substring(2).equals(&quot;completed&quot;)) {</span>
+<span class="fc" id="L153">            completed = true;</span>
+<span class="fc" id="L154">            System.out.println(&quot;Completed status have been set to true\n&quot;);</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        } else if(command.substring(2, 5).equals(&quot;due&quot;)){</span>
+<span class="nc" id="L156">            dueDate = command.substring(6);</span>
+<span class="nc" id="L157">            System.out.println(&quot;The due date have been saved for new task.\n&quot;);</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">        } else if(command.substring(2, 10).equals(&quot;csv-file&quot;)){</span>
+<span class="nc" id="L159">            filePath = command.substring(11);</span>
+<span class="nc" id="L160">            tasks = function.readTasksFromCSV(command.substring(11));</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            for(Task i:tasks){</span>
+<span class="nc" id="L162">                System.out.println(function.taskToCsv(i));</span>
+<span class="nc" id="L163">            }</span>
+<span class="nc" id="L164">            System.out.println();</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        } else if(command.substring(2, 10).equals(&quot;category&quot;)){</span>
+<span class="fc" id="L166">            category = command.substring(11);</span>
+<span class="fc" id="L167">            System.out.println(&quot;category have been saved\n&quot;);</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        } else if(command.substring(2,11).equals(&quot;Task-text&quot;)){</span>
+<span class="nc" id="L169">            text = command.substring(12);</span>
+<span class="nc" id="L170">            System.out.println(&quot;The description for new task have been saved!\n&quot;);</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">        }  else if(command.substring(2, 10).equals(&quot;priority&quot;)){</span>
+<span class="nc" id="L172">            PriorityCommand priorityCommand = new PriorityCommand(command, function, priority);</span>
+<span class="nc" id="L173">            priorityCommand.execute();</span>
+<span class="pc bpc" id="L174" title="2 of 4 branches missed.">        } else if(command.length() &lt;= 21 &amp;&amp; command.substring(2,15).equals(&quot;complete-Task&quot;)){</span>
+<span class="nc" id="L175">            task.manager.taskmanager.CompleteTaskCommand completeCommand =</span>
+<span class="nc" id="L176">                    new task.manager.taskmanager.CompleteTaskCommand(function, command.substring(16), filePath);</span>
+<span class="nc" id="L177">            completeCommand.execute();</span>
+<span class="pc bpc" id="L178" title="2 of 4 branches missed.">        } else if(command.length() &gt;= 15 &amp;&amp; (command.substring(2, 10).equals(&quot;complete&quot;) ||</span>
+<span class="pc bpc" id="L179" title="2 of 4 branches missed.">                command.substring(2, 5).equals(&quot;add&quot;) || command.substring(2, 9).equals(&quot;display&quot;))) {</span>
+<span class="nc" id="L180">            multipleCommand(command);</span>
+        } else{
+<span class="fc" id="L182">            System.out.println(&quot;You have entered invalid input, please re-enter.\n&quot;);</span>
+        }
+<span class="fc" id="L184">    }</span>
+
+    /**
+     * Displays tasks based on specified filters and sorting options.
+     *
+     * @param command The command entered by the user to specify filters and sorting options.
+     *                Filter options:
+     *                  - &quot;show-incomplete&quot; to include only incomplete tasks
+     *                  - &quot;show-category &lt;category&gt;&quot; to filter tasks by category
+     *                Sorting options:
+     *                  - &quot;sort-by-date&quot; to sort tasks by date (ascending)
+     *                  - &quot;sort-by-priority&quot; to sort tasks by priority (ascending)
+     * @return A list of tasks after applying the specified filters and sorting options.
+     */
+    public static void display(String command){
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if(command.isEmpty()){</span>
+<span class="nc" id="L200">            System.out.println(&quot;Please enter valid input&quot;);</span>
+<span class="nc" id="L201">            return;</span>
+        }
+<span class="fc" id="L203">        boolean incomplete = false;</span>
+<span class="fc" id="L204">        boolean sortByDate = false;</span>
+<span class="fc" id="L205">        boolean sortByPriority = false;</span>
+<span class="fc" id="L206">        String category = null;</span>
+<span class="fc" id="L207">        String[] parts = command.split(&quot;--&quot;);</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        for(String i:parts) {</span>
+<span class="fc" id="L209">            i = i.trim();</span>
+<span class="pc bpc" id="L210" title="1 of 4 branches missed.">            if(i.equals(&quot;&quot;) || i == null) continue;</span>
+<span class="fc bfc" id="L211" title="All 2 branches covered.">            if(i.equals(&quot;show-incomplete&quot;)) {</span>
+<span class="fc" id="L212">                incomplete = true;</span>
+<span class="fc" id="L213">                System.out.println(&quot;incomplete have been enabled to true&quot;);</span>
+            }
+<span class="fc bfc" id="L215" title="All 2 branches covered.">            else if(i.equals(&quot;sort-by-date&quot;)) {</span>
+<span class="fc" id="L216">                sortByDate = true;</span>
+<span class="fc" id="L217">                System.out.println(&quot;sort by date have been enabled to true&quot;);</span>
+            }
+<span class="pc bpc" id="L219" title="2 of 4 branches missed.">            else if(i.length() &gt;= 13 &amp;&amp; i.substring(0, 13).equals(&quot;show-category&quot;)) {</span>
+<span class="nc" id="L220">                category = i.substring(14);</span>
+<span class="nc" id="L221">                System.out.println(&quot;category have been set to &quot; + category);</span>
+            }
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">            else if(i.equals(&quot;sort-by-priority&quot;)) sortByPriority = true;</span>
+            else{
+<span class="fc" id="L225">                System.out.println(i + &quot; is invalid inputs. Please re-enter&quot;);</span>
+<span class="fc" id="L226">                return;</span>
+            }
+        }
+<span class="fc" id="L229">        function.displayTasks(incomplete, category, sortByDate, sortByPriority, filePath);</span>
+<span class="fc" id="L230">    }</span>
+
+    /**
+     * Runs the program and interacts with the user through the console.
+     */
+    public static void run(){
+<span class="fc" id="L236">        Scanner scanner = new Scanner(System.in);</span>
+<span class="fc" id="L237">        System.out.println(&quot;The program have started&quot;);</span>
+        while(true) {
+<span class="fc" id="L239">            System.out.println(&quot;Please enter inputs: &quot;);</span>
+<span class="fc" id="L240">            System.out.println(&quot;--help for brief description for this program&quot;);</span>
+<span class="fc" id="L241">            System.out.println(&quot;enter exit to end the program&quot;);</span>
+<span class="fc" id="L242">            String command = scanner.nextLine();</span>
+<span class="pc bpc" id="L243" title="2 of 4 branches missed.">            if(command == null || command.length() &lt;= 0) {</span>
+<span class="nc" id="L244">                System.out.println(&quot;Please enter valid input\n&quot;);</span>
+<span class="nc" id="L245">                continue;</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">            } else if(command.equals(&quot;exit&quot;)) break;</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">            if(!correctFormat(command)){</span>
+<span class="nc" id="L248">                System.out.println(&quot;You have entered invalid character, please re-enter&quot;);</span>
+<span class="nc" id="L249">                System.out.println(&quot;For more help, please enter --help.\n&quot;);</span>
+<span class="nc" id="L250">                continue;</span>
+            }
+<span class="nc" id="L252">            detectCommand(command);</span>
+<span class="nc" id="L253">        }</span>
+<span class="fc" id="L254">    }</span>
+
+    /**
+     * The main method of the program.
+     * This method starts the program and prompts the user for inputs. It continuously takes inputs and performs the corresponding actions until the user enters &quot;exit&quot; to end the
+     * program.
+     * Before processing a command, it checks if the command follows the correct format and prompts the user to re-enter if it's invalid.
+     *
+     * @param args The command-line arguments passed to the program.
+     */
+    public static void main(String[] args){
+<span class="nc" id="L265">        run();</span>
+<span class="nc" id="L266">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="task.manager.taskmanager.FunctionalityTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2024-04-04T07:34:59" hostname="OliviaMiuki-2.local" time="0.066">
+  <properties/>
+  <testcase name="testTaskToCsvWithSpecialCharacters()" classname="task.manager.taskmanager.FunctionalityTest" time="0.016"/>
+  <testcase name="testConvertToPriorityAlphaWithInvalidString()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testDisplayTasks_ShouldFilterByCategory()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testAddTask()" classname="task.manager.taskmanager.FunctionalityTest" time="0.003"/>
+  <testcase name="testCompleteTaskWithInvalidId()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testDisplayTasksWithEmptyFile()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testConvertToPriorityNumWithNegativeNumbers()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testDisplayTasks_ShouldReturnIncompleteTasks()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testReadTasksFromCSVWithEmptyFile()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testConvertToPriorityAlphaWithUppercaseString()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testAddTaskWithSpecialCharacters()" classname="task.manager.taskmanager.FunctionalityTest" time="0.004"/>
+  <testcase name="testReadTasksFromCSV()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testCommaToTripleSpace()" classname="task.manager.taskmanager.FunctionalityTest" time="0.0"/>
+  <testcase name="testReadFileContents()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testCompleteTask()" classname="task.manager.taskmanager.FunctionalityTest" time="0.002"/>
+  <testcase name="testConvertToPriorityString()" classname="task.manager.taskmanager.FunctionalityTest" time="0.0"/>
+  <testcase name="testTaskToCsv()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testCommaToSpecial()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testDisplayTasks_ShouldReturnAllTasks()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testConvertToPriorityNumWithInvalidNumbers()" classname="task.manager.taskmanager.FunctionalityTest" time="0.0"/>
+  <testcase name="testTripleSpaceToComma()" classname="task.manager.taskmanager.FunctionalityTest" time="0.0"/>
+  <testcase name="testConvertToPriorityInt()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <testcase name="testSpecialToComma()" classname="task.manager.taskmanager.FunctionalityTest" time="0.001"/>
+  <system-out><![CDATA[02601   Test Task   false   2023-04-03   MEDIUM   Work
+
+Task added successfully!
+02601   Test Task   false   2024-04-01   LOW   Test Category
+Error occurred while updating task status: testCompleteTask.csv (No such file or directory)
+All tasks have been completed
+
+02601   Test Task   false   2023-04-03   MEDIUM   Work
+02601   Test Task   false   2024-04-01   LOW   Test Category
+
+Task added successfully!
+1   Sample Task, with special characters   false      MEDIUM   Sample Category
+Task status updated successfully!
+
+02601   Test Task   true   2023-04-03   MEDIUM   Work
+02601   Test Task   true   2024-04-01   LOW   Test Category
+
+]]></system-out>
+  <system-err><![CDATA[File not found: emptyFile.csv
+File not found: emptyFile.csv
+]]></system-err>
+</testsuite>

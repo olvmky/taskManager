@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="task.manager.taskmanager.TaskTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2024-04-04T07:34:59" hostname="OliviaMiuki-2.local" time="0.016">
+  <properties/>
+  <testcase name="testTaskCreationWithNullCategory()" classname="task.manager.taskmanager.TaskTest" time="0.0"/>
+  <testcase name="testGetId()" classname="task.manager.taskmanager.TaskTest" time="0.0"/>
+  <testcase name="testIsCompleted()" classname="task.manager.taskmanager.TaskTest" time="0.0"/>
+  <testcase name="testEmptyText()" classname="task.manager.taskmanager.TaskTest" time="0.003"/>
+  <testcase name="testGetText()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testTaskCreationWithNullDueDate()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testGetPriority()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testSetCompleted()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testTaskCreation()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testGetDue()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testGetCategory()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testTaskCreationWithNullPriority()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <testcase name="testTaskProperties()" classname="task.manager.taskmanager.TaskTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

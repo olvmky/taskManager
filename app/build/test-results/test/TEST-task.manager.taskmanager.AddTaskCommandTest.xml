@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="task.manager.taskmanager.AddTaskCommandTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-04-04T07:34:58" hostname="OliviaMiuki-2.local" time="0.004">
+  <properties/>
+  <testcase name="testExecuteCreatesAndAddsTaskCorrectly()" classname="task.manager.taskmanager.AddTaskCommandTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
