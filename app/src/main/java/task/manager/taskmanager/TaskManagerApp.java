@@ -52,7 +52,7 @@ public class TaskManagerApp extends JFrame {
         taskManager = new TaskManager();
 
         setTitle("Task Manager");
-        setSize(600, 400);
+        setSize(900, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -479,7 +479,7 @@ public class TaskManagerApp extends JFrame {
         List<String[]> lines = functionality.readFileContents(filePath);
         comboBox.removeAllItems();
         for (String[] i : lines) {
-            comboBox.addItem(i[0]);
+            if(i[2].trim().equals("false")) comboBox.addItem(i[0]);
         }
     }
 
